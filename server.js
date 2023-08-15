@@ -5,8 +5,14 @@ const log = (request) => {
 };
 
 const handle = (request, response) => {
-  response.writeHead(200, { "content-type": "text/html" });
-  response.end("<h1>Welcome</h1>");
+  if (request.url === "/") {
+    response.writeHead(200, { "content-type": "text/html" });
+    response.end("<h1>Welcome</h1>");
+    return;
+  }
+
+  response.statusCode = 404;
+  response.end("<h1>NOT FOUND</h1>");
 };
 
 const main = () => {
