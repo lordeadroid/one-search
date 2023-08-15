@@ -4,10 +4,15 @@ const log = (request) => {
   console.log(request.method, request.url);
 };
 
+const handle = (request, response) => {
+  response.writeHead(200, { "content-type": "text/html" });
+  response.end("<h1>Welcome</h1>");
+};
+
 const main = () => {
   const server = http.createServer((request, response) => {
     log(request);
-    response.end("WELCOME");
+    handle(request, response);
   });
 
   const PORT = 8080;
