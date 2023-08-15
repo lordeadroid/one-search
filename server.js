@@ -5,17 +5,32 @@ const log = (request) => {
   console.log(request.method, request.url);
 };
 
-const handle = (request, response) => {
-  if (request.url === "/") {
-    const indexPage = fs.readFileSync("resources/pages/index.html");
+const DO_SOMETHING = () => {};
 
+const serveHomePage = (_, response) => {
+  const filePath = "resources/pages/index.html";
+  fs.readFile(filePath, (error, content) => {
+    if (error) {
+      response.statusCode = 400;
+      response.end("SOME ERROR OCCURED");
+    }
     response.writeHead(200, { "content-type": "text/html" });
-    response.end(indexPage);
-    return;
-  }
+    response.end(content);
+  });
+};
 
-  response.statusCode = 404;
-  response.end("<h1>NOT FOUND</h1>");
+const handle = (request, response) => {
+  const routes = [
+    { route: "^/$", method: "GET", handler: serveHomePage },
+    { route: "^/find", method: "POST", handler: DO_SOMETHING },
+  ];
+
+  const { handler } = routes.find(({ route, method }) => {
+    const regExp = new RegExp(route);
+    return regExp.test(request.url) && method === request.method;
+  });
+
+  handler(request, response);
 };
 
 const main = () => {
