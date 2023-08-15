@@ -21,6 +21,10 @@ const handleSearchPage = (request, response) => {
   });
 };
 
+const createLinks = (searchRequest) => {
+  return `<a href="https://www.google.com/search?q=${searchRequest}">GOOGLE</a>`;
+};
+
 const serveSearchLinks = (_, response) => {
   const filePath = "resources/pages/search-links.html";
 
@@ -31,7 +35,8 @@ const serveSearchLinks = (_, response) => {
       return;
     }
 
-    const links = "LINKS -IN- TIME";
+    const links = createLinks(POST_REQUEST.search);
+
     const htmlPage = content.replace("%links%", links);
     response.writeHead(200, { "content-type": "text/html" });
     response.end(htmlPage);
