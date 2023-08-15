@@ -21,8 +21,18 @@ const handleSearchPage = (request, response) => {
   });
 };
 
+const createGoogleLink = (searchRequest) => {
+  return `<li><a href="https://www.google.com/search?q=${searchRequest}">GOOGLE</a></li>`;
+};
+
+const createWikipediaLink = (searchRequest) => {
+  return `<li><a href="https://www.wikipedia.com/wiki/${searchRequest}">WIKIPEDIA</a></li>`;
+};
+
 const createLinks = (searchRequest) => {
-  return `<a href="https://www.google.com/search?q=${searchRequest}">GOOGLE</a>`;
+  const googleLink = createGoogleLink(searchRequest);
+  const wikipediaLink = createWikipediaLink(searchRequest);
+  return `${googleLink}\n${wikipediaLink}`;
 };
 
 const serveSearchLinks = (_, response) => {
