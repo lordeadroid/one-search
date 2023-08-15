@@ -1,3 +1,4 @@
+const fs = require("fs");
 const http = require("node:http");
 
 const log = (request) => {
@@ -6,8 +7,10 @@ const log = (request) => {
 
 const handle = (request, response) => {
   if (request.url === "/") {
+    const indexPage = fs.readFileSync("resources/pages/index.html");
+
     response.writeHead(200, { "content-type": "text/html" });
-    response.end("<h1>Welcome</h1>");
+    response.end(indexPage);
     return;
   }
 
