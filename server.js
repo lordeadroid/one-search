@@ -1,5 +1,9 @@
 const http = require("node:http");
 
+const log = (request) => {
+  console.log(request.method, request.url);
+};
+
 const main = () => {
   const server = http.createServer((request, response) => {
     log(request);
